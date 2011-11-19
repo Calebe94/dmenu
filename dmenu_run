@@ -1,15 +1,14 @@
 #!/bin/sh
-cachedir=${XDG_CACHE_HOME:-"$HOME/.cache"}
-if [ -d "$cachedir" ]; then
-	cache=$cachedir/dmenu_run
-else
-	cache=$HOME/.dmenu_cache # if no xdg dir, fall back to dotfile in ~
+CACHE=${XDG_CACHE_HOME:-"$HOME/.cache"}/dmenu_run
+if [ ! -d "`dirname "$CACHE"`" ]; then
+	CACHE=$HOME/.dmenu_cache
 fi
 (
 	IFS=:
-	if [ "`ls -dt $PATH "$cache" | head -n 1`" != "$cache" ]; then
-		lsx $PATH | sort -u | tee "$cache" | dmenu "$@"
-	else
-		dmenu "$@" < "$cache"
+	if ls -d $PATH | stest -q -n "$CACHE"; then
+		for dir in $PATH; do
+			ls $dir | stest -C $dir -fx
+		done | sort -u > "$CACHE"
 	fi
-) | ${SHELL:-"/bin/sh"} &
+)
+cmd=`dmenu "$@" < "$CACHE"` && exec sh -c "$cmd"
