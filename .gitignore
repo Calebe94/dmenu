@@ -3,6 +3,9 @@
 
 # Object files
 *.o
+config.h
+dmenu
+stest
 *.ko
 *.obj
 *.elf
