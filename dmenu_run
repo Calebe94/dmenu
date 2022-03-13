@@ -1,5 +1,4 @@
 #!/bin/sh
-<<<<<<< HEAD
 CACHE=${XDG_CACHE_HOME:-"$HOME/.cache"}/dmenu_run
 if [ ! -d "`dirname "$CACHE"`" ]; then
 	CACHE=$HOME/.dmenu_cache
@@ -11,6 +10,4 @@ fi
 	fi
 )
 cmd=`dmenu "$@" < "$CACHE"` && exec sh -c "$cmd"
-=======
-dmenu_path | dmenu "$@" | ${SHELL:-"/bin/sh"} &
->>>>>>> dec9a28... dmenu_run: Split cache logic to dmenu_path again
+
